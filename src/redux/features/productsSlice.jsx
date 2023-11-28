@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
 import axios from "axios";
+import shuffleArray from "shuffle-array";
 
 const initialState = { loading: false, error: "", pokemonsList: [] };
 
 const getPokemons = createAsyncThunk("products/getPokemons", async () => {
   const totalData = [];
-  for (let index = 1; index < 27; index++) {
+  for (let index = 1; index < 25; index++) {
     const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${index}`);
     const data = await res.data;
     const price = Math.floor(Math.random() * 100) + 1;
@@ -18,7 +19,7 @@ const getPokemons = createAsyncThunk("products/getPokemons", async () => {
       rarity,
     });
   }
-  return totalData;
+  return shuffleArray(totalData);
 });
 
 const productsSlice = createSlice({
